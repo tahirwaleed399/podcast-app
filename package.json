@@ -5,15 +5,16 @@
     "workspaces": [
         "packages/*"
     ],
-    "scripts": {
-        "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-        "dev:backend": "npm run dev -w packages/backend",
-        "dev:frontend": "npm run dev -w packages/frontend",
-        "build": "npm run build --workspaces",
-        "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
-        "start:backend": "npm run start -w packages/backend",
-        "start:frontend": "npm run start -w packages/frontend"
-    },
+ "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm run dev -w packages/backend",
+    "dev:frontend": "npm run dev -w packages/frontend",
+    "build": "npm run build --workspaces",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "npm run start -w packages/backend",
+    "start:frontend": "npm run start -w packages/frontend",
+    "test:backend": "npm run test -w packages/backend"
+  },
     "devDependencies": {
         "concurrently": "^6.2.0"
     }

@@ -8,9 +8,9 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Podcast } from '@/types/podcast';
 import { getPodcasts, searchPodcasts } from '@/lib/api';
-import LoadingSpinner from '@/components/Loading';
-import ErrorMessage from '@/components/ErrorMessage';
 import PodcastCard from '@/components/PodcastCard';
+import PodcastCardSkeleton from '@/components/SkeletonLoading';
+import NoPodcastsFoundMessage from '@/components/NoPodcast';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -63,7 +63,9 @@ export default function Home() {
 
   const isLoading = useInfiniteScroll ? infiniteQuery.isLoading : paginatedQuery.isLoading;
   const isError = useInfiniteScroll ? infiniteQuery.isError : paginatedQuery.isError;
-  const error = useInfiniteScroll ? infiniteQuery.error : paginatedQuery.error;
+  // const error = useInfiniteScroll ? infiniteQuery.error : paginatedQuery.error;
+
+  const noPodcastsFound = !isLoading && !isError && allPodcasts.length === 0;
 
   return (
     <main className="container mx-auto p-4">
@@ -85,36 +87,39 @@ export default function Home() {
         </div>
       </div>
       
-      {isLoading && <LoadingSpinner />}
-      {isError && <ErrorMessage message={(error as Error).message} />}
+      {isLoading && <PodcastCardSkeleton />}
+      {isError && <NoPodcastsFoundMessage message="No podcasts found. Try adjusting your search criteria." />}
+      {noPodcastsFound && <NoPodcastsFoundMessage message="No podcasts found. Try adjusting your search criteria." />}
       
-      {useInfiniteScroll ? (
-        <InfiniteScroll
-          dataLength={allPodcasts.length}
-          next={infiniteQuery.fetchNextPage}
-          hasMore={!!infiniteQuery.hasNextPage}
-          loader={<LoadingSpinner />}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {allPodcasts.map((podcast: Podcast) => (
-              <PodcastCard key={podcast.id} podcast={podcast} />
-            ))}
-          </div>
-        </InfiniteScroll>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {allPodcasts.map((podcast: Podcast) => (
-              <PodcastCard key={podcast.id} podcast={podcast} />
-            ))}
-          </div>
-          <div className="mt-4 flex justify-center items-center space-x-2">
-            <Button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>First</Button>
-            <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</Button>
-            <span>Page {currentPage}</span>
-            <Button onClick={() => handlePageChange(currentPage + 1)} disabled={allPodcasts.length < ITEMS_PER_PAGE}>Next</Button>
-          </div>
-        </>
+      {!isLoading && !isError && !noPodcastsFound && (
+        useInfiniteScroll ? (
+          <InfiniteScroll
+            dataLength={allPodcasts.length}
+            next={infiniteQuery.fetchNextPage}
+            hasMore={!!infiniteQuery.hasNextPage}
+            loader={<PodcastCardSkeleton />}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {allPodcasts.map((podcast: Podcast) => (
+                <PodcastCard key={podcast.id} podcast={podcast} />
+              ))}
+            </div>
+          </InfiniteScroll>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {allPodcasts.map((podcast: Podcast) => (
+                <PodcastCard key={podcast.id} podcast={podcast} />
+              ))}
+            </div>
+            <div className="mt-4 flex justify-center items-center space-x-2">
+              <Button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>First</Button>
+              <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</Button>
+              <span>Page {currentPage}</span>
+              <Button onClick={() => handlePageChange(currentPage + 1)} disabled={allPodcasts.length < ITEMS_PER_PAGE}>Next</Button>
+            </div>
+          </>
+        )
       )}
     </main>
   );
