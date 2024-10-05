@@ -1,15 +1,23 @@
-FROM node:14-alpine
+# Use an official Node runtime as the base image
+FROM node:18-alpine
 
-WORKDIR /usr/src/app
+# Set the working directory in the container
+WORKDIR /app
 
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-RUN npm ci --only=production
+# Install dependencies
+RUN npm install
 
+# Copy the rest of the frontend code
 COPY . .
 
+# Build the app
 RUN npm run build
 
+# Expose the port the app runs on
 EXPOSE 3000
 
-CMD ["node", "dist/app.js"]
+# Define the command to run the app
+CMD ["npm", "start"]
