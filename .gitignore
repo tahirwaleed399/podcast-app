@@ -1,6 +1,6 @@
 # Root level
 node_modules/
-.env
+# .env
 .DS_Store
 *.log
 npm-debug.log*
@@ -10,7 +10,7 @@ yarn-error.log*
 # Backend
 packages/backend/node_modules/
 packages/backend/dist/
-packages/backend/.env
+# packages/backend/.env
 packages/backend/coverage/
 
 # Frontend
@@ -18,7 +18,7 @@ packages/frontend/node_modules/
 packages/frontend/.next/
 packages/frontend/out/
 packages/frontend/.env*.local
-packages/frontend/.env
+# packages/frontend/.env
 packages/frontend/.vercel
 packages/frontend/*.tsbuildinfo
 packages/frontend/next-env.d.ts

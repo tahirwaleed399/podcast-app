@@ -1,6 +1,9 @@
+
 # Podcast App
 
 This is a **full-stack application** for browsing and searching podcasts, featuring a **Next.js frontend** and a **Node.js backend**.
+
+> **Note:** For the convenience of testers and developers, environment files (`.env`) have been added directly to the repository. This is not a security oversight but is done intentionally to simplify the setup process for testing the application. Please be mindful of this when deploying to production, and make sure to handle sensitive information securely.
 
 ## Prerequisites
 
@@ -13,7 +16,7 @@ Before you begin, ensure you have the following installed on your machine:
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/podcast-app.git
+    git clone https://github.com/tahirwaleed399/podcast-app.git
     cd podcast-app
     ```
 
@@ -64,12 +67,7 @@ To build the application for production:
 ## Project Structure
 
 
-packages/ 
-├── frontend # Next.js frontend application 
-└── backend # Node.js backend application
-
-
-
+packages/ ├── frontend # Next.js frontend application └── backend # Node.js backend application
 ## Environment Variables
 
 ### Frontend
